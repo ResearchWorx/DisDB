@@ -45,6 +45,8 @@ public class dbServer {
             //The following is required to eliminate an error or warning "Error on resolving property: ORIENTDB_HOME"
             ec.add(new OServerEntryConfiguration("plugin.dynamic","false"));
             cfg.properties = ec.toArray(new OServerEntryConfiguration[ec.size()]);
+
+
             //handlers
             cfg.handlers = new ArrayList<>();
             OServerHandlerConfiguration han = new OServerHandlerConfiguration();

@@ -11,6 +11,8 @@ public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
     protected HazelcastInstance configureHazelcast() throws FileNotFoundException {
 
         HazelcastInstance instance = null;
+        //look here
+        //https://github.com/p14n/StorageMod/tree/master/src/main/java/jhc/data/orient
         //HazelcastInstance instance = ... //create the HazelcastInstance programmatically according to the hazelcast documentation
         return instance;
     }

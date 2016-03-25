@@ -9,14 +9,16 @@ public class main {
 
         //ProgrammaticOHazelcastPlugin.addMember("10.20.22.130:2434");
 
+        System.out.print("Name of DB cluster to join [q to quit]: ");
+
+
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
         while (!input.toLowerCase().equals("q")) {
 
             System.out.print("Name of DB cluster to join [q to quit]: ");
-
-            System.out.print(input);
+            ProgrammaticOHazelcastPlugin.addMember(input);
             input = scanner.nextLine();
         }
         dbs.stopServer();

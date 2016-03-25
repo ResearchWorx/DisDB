@@ -11,12 +11,13 @@ import java.util.List;
  * Created by vcbumg2 on 3/23/16.
  */
 public class dbServer {
+    private OServer server;
     public dbServer() {
     }
 
     public void startServer() {
         try {
-            OServer server = OServerMain.create();
+            server = OServerMain.create();
 
             OServerConfiguration cfg = new OServerConfiguration();
             //network
@@ -60,8 +61,8 @@ public class dbServer {
             han.parameters = hanparam.toArray(new OServerParameterConfiguration[hanparam.size()]);
             cfg.handlers.add(han);
 
-
             server.startup(cfg);
+
             server.activate();
 
             /*
@@ -96,6 +97,11 @@ public class dbServer {
         {
             System.out.println(ex.getMessage());
         }
+    }
+
+    public void stopServer() {
+
+        server.shutdown();
     }
 }
 

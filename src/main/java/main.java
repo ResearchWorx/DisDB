@@ -7,8 +7,13 @@ public class main {
         dbServer dbs = new dbServer();
         dbs.startServer();
 
-        //ProgrammaticOHazelcastPlugin.addMember("10.20.22.130:2434");
+        if(args.length == 2) {
+            int sleeptime = Integer.parseInt(args[1]);
+            Thread.sleep(sleeptime);
 
+            ProgrammaticOHazelcastPlugin.addMember(args[0]);
+            //ProgrammaticOHazelcastPlugin.addMember("10.20.22.130:2434");
+        }
         System.out.print("Name of DB cluster to join [q to quit]: ");
 
 

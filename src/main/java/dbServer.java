@@ -102,6 +102,15 @@ public class dbServer {
     public void stopServer() {
 
         server.shutdown();
+
+    }
+    public void getStats()
+    {
+        String[] fieldnames = server.getDistributedManager().getStats().fieldNames();
+        for(int i=0; i < fieldnames.length; i++)
+        {
+            System.out.println(fieldnames[i]);
+        }
     }
 }
 

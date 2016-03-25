@@ -18,7 +18,13 @@ public class main {
         while (!input.toLowerCase().equals("q")) {
 
             System.out.print("Name of DB cluster to join [q to quit]: ");
-            ProgrammaticOHazelcastPlugin.addMember(input);
+            if(input.length() > 0) {
+                ProgrammaticOHazelcastPlugin.addMember(input);
+            }
+            else
+            {
+                dbs.getStats();
+            }
             input = scanner.nextLine();
         }
         dbs.stopServer();

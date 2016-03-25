@@ -90,7 +90,6 @@ public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
     public static void addMember(String member) {
 
         instance.getConfig().getNetworkConfig().getJoin().getTcpIpConfig().addMember(member);
-
         instance = Hazelcast.newHazelcastInstance(hc);
     }
 }

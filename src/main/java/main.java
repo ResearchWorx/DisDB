@@ -1,5 +1,4 @@
-import com.orientechnologies.orient.server.OServer;
-import com.orientechnologies.orient.server.OServerMain;
+
 
 public class main {
 
@@ -7,6 +6,8 @@ public class main {
 
         dbServer dbs = new dbServer();
         dbs.startServer();
+
+        //ProgrammaticOHazelcastPlugin.addMember("10.20.22.130:2434");
 
     }
 }

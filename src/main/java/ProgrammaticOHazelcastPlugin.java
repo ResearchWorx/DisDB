@@ -11,15 +11,16 @@ import java.util.Set;
 
 
 public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
+    public static HazelcastInstance instance;
+    public static Config hc;
 
     //For 1.7rc2 and above
     @Override
+    public HazelcastInstance configureHazelcast() throws FileNotFoundException {
 
-    protected HazelcastInstance configureHazelcast() throws FileNotFoundException {
-
-        HazelcastInstance instance = null;
+        //HazelcastInstance instance = null;
         //config
-        Config hc = new Config();
+        hc = new Config();
         //group config
         GroupConfig gc = new GroupConfig();
         gc.setName("tests");
@@ -27,6 +28,7 @@ public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
         hc.setGroupConfig(gc);
         //
         NetworkConfig nc = new NetworkConfig();
+        nc.setPublicAddress("10.22.2.164");
         nc.setPort(2434);
         //join config
         JoinConfig jc = new JoinConfig();
@@ -39,7 +41,7 @@ public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
         //tcp config
         TcpIpConfig tcpc = new TcpIpConfig();
         tcpc.setEnabled(true);
-        tcpc.addMember("10.20.2.164:2434");
+        tcpc.addMember("10.20.22.130:2434");
         jc.setTcpIpConfig(tcpc);
 
         nc.setJoin(jc);
@@ -81,4 +83,10 @@ public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
   }
      */
 
+    public static void addMember(String member) {
+
+        instance.getConfig().getNetworkConfig().getJoin().getTcpIpConfig().addMember(member);
+
+        instance = Hazelcast.newHazelcastInstance(hc);
+    }
 }

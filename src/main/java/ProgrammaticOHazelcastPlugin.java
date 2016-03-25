@@ -1,6 +1,13 @@
+import com.hazelcast.config.*;
+import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
+import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.server.hazelcast.OHazelcastPlugin;
 import java.io.FileNotFoundException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 
 public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
@@ -11,10 +18,67 @@ public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
     protected HazelcastInstance configureHazelcast() throws FileNotFoundException {
 
         HazelcastInstance instance = null;
+        //config
+        Config hc = new Config();
+        //group config
+        GroupConfig gc = new GroupConfig();
+        gc.setName("tests");
+        gc.setPassword("test01");
+        hc.setGroupConfig(gc);
+        //
+        NetworkConfig nc = new NetworkConfig();
+        nc.setPort(2434);
+        //join config
+        JoinConfig jc = new JoinConfig();
+        //mutlicast config
+        MulticastConfig mc = new MulticastConfig();
+        mc.setEnabled(false);
+        mc.setMulticastGroup("235.1.1.1");
+        mc.setMulticastPort(2434);
+        jc.setMulticastConfig(mc);
+        //tcp config
+        TcpIpConfig tcpc = new TcpIpConfig();
+        tcpc.setEnabled(true);
+        tcpc.addMember("127.0.0.1:2434");
+        jc.setTcpIpConfig(tcpc);
+
+        nc.setJoin(jc);
+        hc.setNetworkConfig(nc);
+        Map<String,ExecutorConfig> ehm = new HashMap<>();
+        ExecutorConfig ex = new ExecutorConfig();
+        ex.setPoolSize(16);
+        ehm.put("executor-service",ex);
+        hc.setExecutorConfigs(ehm);
+        instance = Hazelcast.newHazelcastInstance(hc);
+    /*
+        <tcp-ip enabled="true">
+        <member>europe0:2434</member>
+        <member>europe1:2434</member>
+        <member>usa0:2434</member>
+        <member>asia0:2434</member>
+        <member>192.168.1.0-7:2434</member>
+        </tcp-ip>
+  */
+
+
+        ODocument sd = new ODocument();
+
+        //instance.con
+        //instance.getConfig().setGroupConfig()
+
         //look here
         //https://github.com/p14n/StorageMod/tree/master/src/main/java/jhc/data/orient
         //HazelcastInstance instance = ... //create the HazelcastInstance programmatically according to the hazelcast documentation
         return instance;
     }
+
+
+    /*
+    protected HazelcastInstance configureHazelcast() throws FileNotFoundException {
+    FileSystemXmlConfig config = new FileSystemXmlConfig(hazelcastConfigFile);
+    config.setClassLoader(this.getClass().getClassLoader());
+    return Hazelcast.newHazelcastInstance(config);
+  }
+     */
 
 }

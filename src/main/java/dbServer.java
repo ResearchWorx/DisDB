@@ -3,8 +3,11 @@ import com.orientechnologies.orient.server.OServerMain;
 import com.orientechnologies.orient.server.config.*;
 
 import com.orientechnologies.orient.server.network.protocol.binary.ONetworkProtocolBinary;
+import com.orientechnologies.orient.server.plugin.OServerPluginInfo;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -106,10 +109,33 @@ public class dbServer {
     }
     public void getStats()
     {
-        String[] fieldnames = server.getDistributedManager().getStats().fieldNames();
+        System.out.println("Local Node Id: " + server.getDistributedManager().getLocalNodeId());
+        System.out.println("Local Node Name: " + server.getDistributedManager().getLocalNodeName());
+        System.out.println("node status: " + server.getDistributedManager().getNodeStatus());
+
+
+        String[] fieldnames = server.getDistributedManager().getClusterConfiguration().fieldNames();
         for(int i=0; i < fieldnames.length; i++)
         {
-            System.out.println(fieldnames[i]);
+
+            System.out.println("-cluster config " + fieldnames[i] + "=" + server.getDistributedManager().getClusterConfiguration().field(fieldnames[i]));
+        }
+        /*
+        Collection<OServerPluginInfo> serverplugins = server.getPlugins();
+        for (Iterator iterator = serverplugins .iterator(); iterator.hasNext();) {
+            OServerPluginInfo plugin = (OServerPluginInfo) iterator.next();
+            System.out.println("name" + plugin.getName());
+            System.out.println("disc" + plugin.getDescription());
+            System.out.println("ver" + plugin.getVersion());
+            System.out.println("web" + plugin.getWeb());
+
+        }
+        */
+        //String[] fieldnames = server.getDistributedManager().getStats().fieldNames();
+        String[] fieldnames2 = server.getDistributedManager().getNodeConfigurationById(server.getDistributedManager().getLocalNodeId()).fieldNames();
+        for(int i=0; i < fieldnames2.length; i++)
+        {
+            System.out.println("-local config " + fieldnames2[i] + "=" + server.getDistributedManager().getNodeConfigurationById(server.getDistributedManager().getLocalNodeId()).field(fieldnames2[i]));
         }
     }
 }

@@ -55,7 +55,7 @@ public class dbServer {
             List<OServerParameterConfiguration> hanparam = new ArrayList<>();
             hanparam.add(new OServerParameterConfiguration("nodeName","toots1"));
             hanparam.add(new OServerParameterConfiguration("enabled","true"));
-            hanparam.add(new OServerParameterConfiguration("configuration.db.default","${ORIENTDB_HOME}/config/default-distributed-db-config.json"));
+            hanparam.add(new OServerParameterConfiguration("configuration.db.default","/tmp/default-distributed-db-config.json"));
             hanparam.add(new OServerParameterConfiguration("configuration.hazelcast","${ORIENTDB_HOME}/config/hazelcast.xml"));
             han.parameters = hanparam.toArray(new OServerParameterConfiguration[hanparam.size()]);
             cfg.handlers.add(han);

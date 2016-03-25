@@ -39,7 +39,7 @@ public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
         //tcp config
         TcpIpConfig tcpc = new TcpIpConfig();
         tcpc.setEnabled(true);
-        tcpc.addMember("127.0.0.1:2434");
+        tcpc.addMember("10.20.2.164:2434");
         jc.setTcpIpConfig(tcpc);
 
         nc.setJoin(jc);

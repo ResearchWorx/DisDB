@@ -30,10 +30,17 @@ public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
         NetworkConfig nc = new NetworkConfig();
         //nc.setSocketInterceptorConfig()
         InterfacesConfig ic = new InterfacesConfig();
-        ic.addInterface("0.0.0.0");
+        //ic.addInterface("0.0.0.0");
+        ic.setEnabled(true);
+        ic.addInterface("2610:1e0:1700:201::1");
+        ic.addInterface("2610:1e0:1700:200::2");
+
+        //ic.addInterface("[::]");
         nc.setInterfaces(ic);
+
         //nc.setPublicAddress("10.22.2.164");
         nc.setPort(2434);
+        //nc.setPublicAddress()
         //join config
         JoinConfig jc = new JoinConfig();
         //mutlicast config
@@ -64,6 +71,9 @@ public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
         <member>asia0:2434</member>
         <member>192.168.1.0-7:2434</member>
         </tcp-ip>
+
+Add <properties><property name="hazelcast.local.localAddress">IPV4ADDRESSHERE</property></properties> into hazelcast.xml
+Add <network><public-address>IPV4ADDRESSHERE</public-address></network>
   */
 
 

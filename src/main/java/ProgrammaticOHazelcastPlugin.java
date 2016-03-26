@@ -4,10 +4,8 @@ import com.hazelcast.core.HazelcastInstance;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.server.hazelcast.OHazelcastPlugin;
 import java.io.FileNotFoundException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.net.*;
+import java.util.*;
 
 
 public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
@@ -32,12 +30,8 @@ public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
         NetworkConfig nc = new NetworkConfig();
         //nc.setSocketInterceptorConfig()
         InterfacesConfig ic = new InterfacesConfig();
-        //ic.addInterface("0.0.0.0");
         ic.setEnabled(true);
-        ic.addInterface("2610:1e0:1700:201::1");
-        ic.addInterface("2610:1e0:1700:200::2");
-        //ic.addInterface("2605:a000:160d:60bb:6676:baff:fea4:d1b4");
-        //ic.addInterface("[::]");
+        ic.setInterfaces(getAddressList());//set all public addresses
         nc.setInterfaces(ic);
 
         //nc.setPublicAddress("10.22.2.164");
@@ -104,4 +98,43 @@ Add <network><public-address>IPV4ADDRESSHERE</public-address></network>
         instance.getConfig().getNetworkConfig().getJoin().getTcpIpConfig().addMember(member);
         instance = Hazelcast.newHazelcastInstance(hc);
     }
+
+    private Collection<String> getAddressList() {
+        Collection<String> addressList = null;
+        try {
+            addressList = new ArrayList<>();
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface networkInterface = interfaces.nextElement();
+
+                //if (networkInterface.isLoopback() || !networkInterface.isUp()) {
+                if (networkInterface.getDisplayName().startsWith("veth") || networkInterface.isLoopback() || !networkInterface.isUp() || !networkInterface.supportsMulticast() || networkInterface.isPointToPoint() || networkInterface.isVirtual()) {
+                    //if (networkInterface.getDisplayName().startsWith("veth") || networkInterface.isLoopback() || !networkInterface.supportsMulticast() || networkInterface.isPointToPoint() || networkInterface.isVirtual()) {
+                    continue; // Don't want to broadcast to the loopback interface
+                }
+
+                    for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
+                            //if((interfaceAddress.getAddress() instanceof Inet6Address) && !interfaceAddress.getAddress().isLinkLocalAddress())
+                            InetAddress inAddr = interfaceAddress.getAddress();
+                            boolean isGlobal = !inAddr.isSiteLocalAddress() && !inAddr.isLinkLocalAddress();
+
+                            if ((inAddr instanceof Inet6Address) && isGlobal) {
+                                System.out.println("Added IPv6 Address: " + interfaceAddress.getAddress().getHostAddress());
+                                addressList.add(interfaceAddress.getAddress().getHostAddress());
+                            }
+                            else if (inAddr instanceof Inet4Address) {
+                                System.out.println("Added IPv4 Address: " + interfaceAddress.getAddress().getHostAddress());
+                                addressList.add(interfaceAddress.getAddress().getHostAddress());
+                            }
+                        }
+                    }
+        }
+        catch(Exception ex)
+        {
+            addressList = null;
+            System.out.println("getAddressList Error : " + ex.getMessage());
+        }
+        return addressList;
+    }
+
 }

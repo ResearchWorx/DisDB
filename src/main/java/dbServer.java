@@ -29,13 +29,17 @@ public class dbServer {
             netcfg.protocols = new ArrayList<>();
             OServerNetworkProtocolConfiguration npc = new OServerNetworkProtocolConfiguration("binary","com.orientechnologies.orient.server.network.protocol.binary.ONetworkProtocolBinary");
             netcfg.protocols.add(npc);
+
                 //listners
             netcfg.listeners = new ArrayList<>();
             OServerNetworkListenerConfiguration nlc = new OServerNetworkListenerConfiguration();
             //nlc.ipAddress = "0.0.0.0";
             nlc.ipAddress = "[::]";
+
             netcfg.listeners.add(nlc);
+
             cfg.network = netcfg;
+
             //users
             List<OServerUserConfiguration> userList = new ArrayList<>();
             userList.add(new  OServerUserConfiguration("root","cody01","*"));

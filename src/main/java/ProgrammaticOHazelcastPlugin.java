@@ -118,18 +118,21 @@ Add <network><public-address>IPV4ADDRESSHERE</public-address></network>
                             InetAddress inAddr = interfaceAddress.getAddress();
                             boolean isGlobal = !inAddr.isSiteLocalAddress() && !inAddr.isLinkLocalAddress();
 
-                            if ((inAddr instanceof Inet6Address) && isGlobal) {
-                                String[] ipv6addr = interfaceAddress.getAddress().getHostAddress().toString().split("%");
-                                System.out.println("Added IPv6 Address: " + ipv6addr[0]);
-                                addressList.add(ipv6addr[0]);
-                            }
-                            else if (inAddr instanceof Inet4Address) {
-                                System.out.println("Added IPv4 Address: " + interfaceAddress.getAddress().getHostAddress());
-                                addressList.add(interfaceAddress.getAddress().getHostAddress());
+                            //if ((inAddr instanceof Inet6Address) && isGlobal) {
+                                if (inAddr instanceof Inet6Address) {
+                                    String[] ipv6addr = interfaceAddress.getAddress().getHostAddress().toString().split("%");
+                                    System.out.println("Added IPv6 Address: " + ipv6addr[0]);
+                                    addressList.add(ipv6addr[0]);
+                                }
+                                else if (inAddr instanceof Inet4Address) {
+                                    System.out.println("Added IPv4 Address: " + interfaceAddress.getAddress().getHostAddress());
+                                    addressList.add(interfaceAddress.getAddress().getHostAddress());
+                                }
                             }
                         }
                     }
-        }
+
+
         catch(Exception ex)
         {
             addressList = null;

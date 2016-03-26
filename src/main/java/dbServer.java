@@ -34,7 +34,8 @@ public class dbServer {
             netcfg.listeners = new ArrayList<>();
             OServerNetworkListenerConfiguration nlc = new OServerNetworkListenerConfiguration();
             //nlc.ipAddress = "0.0.0.0";
-            nlc.ipAddress = "[::]";
+            //nlc.ipAddress = "[::]";
+            nlc.ipAddress = "0:0:0:0:0:0:0:0";
 
             netcfg.listeners.add(nlc);
 

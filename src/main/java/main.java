@@ -4,14 +4,22 @@ public class main {
 
     public static void main(String[] args) throws Exception {
 
+        if(args.length == 0)
+        {
+            System.out.println("arg[0]=delay , args[1]=connect to server");
+            System.exit(0);
+        }
+
+            int sleeptime = Integer.parseInt(args[0]);
+            System.out.println("Sleeping for " + sleeptime + " seconds");
+            Thread.sleep(sleeptime);
+
         dbServer dbs = new dbServer();
         dbs.startServer();
 
         if(args.length == 2) {
-            int sleeptime = Integer.parseInt(args[1]);
-            Thread.sleep(sleeptime);
 
-            ProgrammaticOHazelcastPlugin.addMember(args[0]);
+            ProgrammaticOHazelcastPlugin.addMember(args[1]);
             //ProgrammaticOHazelcastPlugin.addMember("10.20.22.130:2434");
         }
         System.out.print("Name of DB cluster to join [q to quit]: ");

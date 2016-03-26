@@ -107,9 +107,11 @@ Add <network><public-address>IPV4ADDRESSHERE</public-address></network>
             while (interfaces.hasMoreElements()) {
                 NetworkInterface networkInterface = interfaces.nextElement();
 
+                System.out.println("Interface Name: " + networkInterface.getDisplayName());
                 //if (networkInterface.isLoopback() || !networkInterface.isUp()) {
-                if (networkInterface.getDisplayName().startsWith("veth") || networkInterface.isLoopback() || !networkInterface.isUp() || !networkInterface.supportsMulticast() || networkInterface.isPointToPoint() || networkInterface.isVirtual()) {
-                    //if (networkInterface.getDisplayName().startsWith("veth") || networkInterface.isLoopback() || !networkInterface.supportsMulticast() || networkInterface.isPointToPoint() || networkInterface.isVirtual()) {
+                //if (networkInterface.getDisplayName().startsWith("veth") || networkInterface.isLoopback() || !networkInterface.isUp() || !networkInterface.supportsMulticast() || networkInterface.isPointToPoint() || networkInterface.isVirtual()) {
+                //if (networkInterface.getDisplayName().startsWith("veth") || networkInterface.isLoopback() || !networkInterface.isUp() || !networkInterface.supportsMulticast() || networkInterface.isPointToPoint() || networkInterface.isVirtual()) {
+                if (networkInterface.getDisplayName().startsWith("veth") || networkInterface.isLoopback() || !networkInterface.supportsMulticast() || networkInterface.isPointToPoint() || networkInterface.isVirtual()) {
                     continue; // Don't want to broadcast to the loopback interface
                 }
 
@@ -118,15 +120,15 @@ Add <network><public-address>IPV4ADDRESSHERE</public-address></network>
                             InetAddress inAddr = interfaceAddress.getAddress();
                             boolean isGlobal = !inAddr.isSiteLocalAddress() && !inAddr.isLinkLocalAddress();
 
-                            //if ((inAddr instanceof Inet6Address) && isGlobal) {
-                                if (inAddr instanceof Inet6Address) {
-                                    String[] ipv6addr = interfaceAddress.getAddress().getHostAddress().toString().split("%");
+                                if ((inAddr instanceof Inet6Address) && isGlobal) {
+                                //if (inAddr instanceof Inet6Address) {
+                                    String[] ipv6addr = inAddr.getHostAddress().toString().split("%");
                                     System.out.println("Added IPv6 Address: " + ipv6addr[0]);
                                     addressList.add(ipv6addr[0]);
                                 }
                                 else if (inAddr instanceof Inet4Address) {
                                     System.out.println("Added IPv4 Address: " + interfaceAddress.getAddress().getHostAddress());
-                                    addressList.add(interfaceAddress.getAddress().getHostAddress());
+                                    addressList.add(inAddr.getHostAddress().toString());
                                 }
                             }
                         }

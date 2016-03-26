@@ -37,7 +37,7 @@ public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
         ic.addInterface("2610:1e0:1700:201::1");
         ic.addInterface("2610:1e0:1700:200::2");
         //ic.addInterface("2605:a000:160d:60bb:6676:baff:fea4:d1b4");
-        ic.addInterface("[::]");
+        //ic.addInterface("[::]");
         nc.setInterfaces(ic);
 
         //nc.setPublicAddress("10.22.2.164");

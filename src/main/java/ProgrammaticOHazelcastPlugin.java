@@ -119,8 +119,9 @@ Add <network><public-address>IPV4ADDRESSHERE</public-address></network>
                             boolean isGlobal = !inAddr.isSiteLocalAddress() && !inAddr.isLinkLocalAddress();
 
                             if ((inAddr instanceof Inet6Address) && isGlobal) {
-                                System.out.println("Added IPv6 Address: " + interfaceAddress.getAddress().getHostAddress());
-                                addressList.add(interfaceAddress.getAddress().getHostAddress());
+                                String[] ipv6addr = interfaceAddress.getAddress().getHostAddress().toString().split("%");
+                                System.out.println("Added IPv6 Address: " + ipv6addr[0]);
+                                addressList.add(ipv6addr[0]);
                             }
                             else if (inAddr instanceof Inet4Address) {
                                 System.out.println("Added IPv4 Address: " + interfaceAddress.getAddress().getHostAddress());

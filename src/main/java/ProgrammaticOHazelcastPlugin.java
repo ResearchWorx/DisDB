@@ -31,7 +31,7 @@ public class ProgrammaticOHazelcastPlugin extends OHazelcastPlugin {
         //nc.setSocketInterceptorConfig()
         InterfacesConfig ic = new InterfacesConfig();
         ic.setEnabled(true);
-        //ic.setInterfaces(getAddressList());//set all public addresses
+        ic.setInterfaces(getAddressList());//set all public addresses
         ic.addInterface("2610:1e0:1700:200::*");
         ic.addInterface("2610:1e0:1700:201::*");
         nc.setInterfaces(ic);

@@ -5,17 +5,21 @@ import com.orientechnologies.orient.server.config.*;
 import com.orientechnologies.orient.server.network.protocol.binary.ONetworkProtocolBinary;
 import com.orientechnologies.orient.server.plugin.OServerPluginInfo;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.math.BigInteger;
+import java.util.*;
 
 /**
  * Created by vcbumg2 on 3/23/16.
  */
 public class dbServer {
     private OServer server;
+    private static Random random = new Random();
+
     public dbServer() {
+    }
+
+    public static String getName() {
+        return new BigInteger(130, random).toString(32).substring(0,5);
     }
 
     public void startServer() {
@@ -63,7 +67,7 @@ public class dbServer {
             //han.clazz = "com.orientechnologies.orient.server.hazelcast.OHazelcastPlugin";
             han.clazz = ProgrammaticOHazelcastPlugin.class.getName();
             List<OServerParameterConfiguration> hanparam = new ArrayList<>();
-            hanparam.add(new OServerParameterConfiguration("nodeName","toots1"));
+            hanparam.add(new OServerParameterConfiguration("nodeName",getName()));
             hanparam.add(new OServerParameterConfiguration("enabled","true"));
             hanparam.add(new OServerParameterConfiguration("configuration.db.default","/tmp/default-distributed-db-config.json"));
             hanparam.add(new OServerParameterConfiguration("configuration.hazelcast","${ORIENTDB_HOME}/config/hazelcast.xml"));

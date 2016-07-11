@@ -138,11 +138,14 @@ public class dbServer {
         }
         */
         //String[] fieldnames = server.getDistributedManager().getStats().fieldNames();
+
+        /*
         String[] fieldnames2 = server.getDistributedManager().getNodeConfigurationById(server.getDistributedManager().getLocalNodeId()).fieldNames();
         for(int i=0; i < fieldnames2.length; i++)
         {
             System.out.println("-local config " + fieldnames2[i] + "=" + server.getDistributedManager().getNodeConfigurationById(server.getDistributedManager().getLocalNodeId()).field(fieldnames2[i]));
         }
+        */
     }
 }
 
